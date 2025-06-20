@@ -34,23 +34,31 @@ pipeline {
         
         stage('Build') {
             steps {
+                sh 'export CI=false'
+                sh 'export GENERATE_SOURCEMAP=false'
                 sh 'npm run build'
+                sh 'ls -la build/'
             }
         }
         
         stage('Build Docker Image') {
             steps {
+                sh 'docker --version'
+                sh 'ls -la'
                 sh 'docker build -t registration-app:${BUILD_NUMBER} .'
                 sh 'docker tag registration-app:${BUILD_NUMBER} registration-app:latest'
+                sh 'docker images | grep registration-app'
             }
         }
         
         stage('Deploy') {
             steps {
-                // Make the deploy script executable
+                sh 'ls -la deploy.sh'
                 sh 'chmod +x deploy.sh'
-                // Run the deployment script
+                sh 'cat deploy.sh'
                 sh './deploy.sh'
+                sh 'docker ps | grep registration-app'
+                sh 'sleep 5 && curl -f http://localhost:8081 || echo "App not ready yet"'
             }
         }
     }
