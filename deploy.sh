@@ -1,6 +1,13 @@
 #!/bin/bash
 
-# Stop and remove existing container
+# Free port 8081 if already in use
+if lsof -i :8081 | grep LISTEN; then
+  echo "⚠️ Port 8081 is already in use. Stopping container using it..."
+  docker ps --filter "publish=8081" -q | xargs -r docker stop
+  docker ps -a --filter "publish=8081" -q | xargs -r docker rm
+fi
+
+# Stop and remove old container by name (just in case)
 docker stop registration-app-container 2>/dev/null || true
 docker rm registration-app-container 2>/dev/null || true
 
