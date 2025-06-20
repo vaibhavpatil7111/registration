@@ -6,7 +6,7 @@ services:
     image: registration-app:latest
     container_name: registration-app-container
     ports:
-      - "8081:3000"
+      - "8081:80"
     environment:
       - NODE_ENV=production
     restart: unless-stopped

@@ -22,11 +22,11 @@ pipeline {
             }
         }
         
-        // stage('Run Tests') { 
-        //     steps {
+        // stage('Run Tests') {
+        //     steps { 
         //         sh 'npm test -- --watchAll=false'
         //     }
-        // } 
+        // }
         
         stage('Build') {
             steps {
@@ -36,54 +36,29 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                script {
-                    echo "Building Docker image..."
-                    sh 'docker build -t registration-app:${BUILD_NUMBER} .'
-                    sh 'docker tag registration-app:${BUILD_NUMBER} registration-app:latest'
-                    sh 'docker images | grep registration-app'
-                }
+                sh 'docker build -t registration-app:${BUILD_NUMBER} .'
+                sh 'docker tag registration-app:${BUILD_NUMBER} registration-app:latest'
             }
         }
         
         stage('Deploy') {
             steps {
-                script {
-                    echo "Starting deployment..."
-                    sh 'chmod +x deploy.sh'
-                    sh 'chmod +x debug-pipeline.sh'
-                    
-                    // Run debug script first
-                    sh './debug-pipeline.sh'
-                    
-                    // Run deployment
-                    sh './deploy.sh'
-                    
-                    // Verify deployment
-                    sh 'docker ps | grep registration-app || echo "Container not running"'
-                    sh 'sleep 5 && curl -f http://localhost:8081 || echo "App not responding"'
-                }
+                // Make the deploy script executable
+                sh 'chmod +x deploy.sh'
+                // Run the deployment script
+                sh './deploy.sh'
             }
         }
     }
-    
+    //hello
+    //make the changes
     
     post {
-        always {
-            script {
-                echo "Pipeline completed. Checking final status..."
-                sh 'docker ps | grep registration-app || echo "No container running"'
-                sh 'docker images | grep registration-app || echo "No image found"'
-            }
-        }
         success {
-            echo '✅ Pipeline completed successfully!'
-            echo '🌐 App should be available at http://localhost:8081'
+            echo 'Registration application deployed successfully!'
         }
         failure {
-            echo '❌ Pipeline failed. Check the logs above for details.'
-            script {
-                sh 'docker logs registration-app-container || echo "No container logs"'
-            }
+            echo 'Deployment failed. Check the logs for details.'
         }
     }
 }
