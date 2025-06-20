@@ -26,7 +26,7 @@ pipeline {
         //     steps {
         //         sh 'npm test -- --watchAll=false'
         //     }
-        // }
+        // } 
         
         stage('Build') {
             steps {
