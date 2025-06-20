@@ -7,7 +7,7 @@ docker rm registration-app-container 2>/dev/null || true
 # Run new container
 docker run -d \
   --name registration-app-container \
-  -p 3000:80 \
+  -p 3000:3000 \
   --restart unless-stopped \
   registration-app:latest
 
