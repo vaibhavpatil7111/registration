@@ -6,7 +6,18 @@ services:
     image: registration-app:latest
     container_name: registration-app-container
     ports:
-      - "3000:3000"
+      - "8081:3000"  # HostPort:ContainerPort
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+  digital-clock-app:
+    build:
+      context: ./digital-clock  # <-- Path to digital clock app
+    image: digital-clock:latest
+    container_name: digital-clock-container
+    ports:
+      - "80:80"  # HostPort:ContainerPort
     environment:
       - NODE_ENV=production
     restart: unless-stopped
