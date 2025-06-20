@@ -11,4 +11,4 @@ docker run -d \
   --restart unless-stopped \
   registration-app:latest
 
-echo "✅ Registration app deployed successfully on port 8081"
+echo "✅ Registration app deployed successfully on ports 8081"
