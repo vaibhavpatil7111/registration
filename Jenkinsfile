@@ -1,12 +1,12 @@
 pipeline {
     agent any
     
-    tools {
-        nodejs 'Node22'
-    }
+    // tools {
+    //     nodejs 'Node22'
+    // }
 
     tools {
-  nodejs 'Node18'
+           nodejs 'Node18'
     }
 
     triggers {
