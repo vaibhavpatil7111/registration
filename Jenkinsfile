@@ -18,6 +18,10 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
+                sh 'node --version'
+                sh 'npm --version'
+                sh 'npm cache clean --force'
+                sh 'rm -rf node_modules package-lock.json'
                 sh 'npm install'
             }
         }
