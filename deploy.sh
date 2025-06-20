@@ -7,7 +7,7 @@ docker rm registration-app-container 2>/dev/null || true
 # Run new container on port 8081
 docker run -d \
   --name registration-app-container \
-  -p 8081:80 \
+  -p 8081:3000 \
   --restart unless-stopped \
   registration-app:latest
 
