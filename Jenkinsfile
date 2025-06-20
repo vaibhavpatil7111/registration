@@ -4,6 +4,11 @@ pipeline {
     tools {
         nodejs 'Node22'
     }
+
+    tools {
+  nodejs 'Node18'
+    }
+
     triggers {
         githubPush()
     }
@@ -36,6 +41,16 @@ pipeline {
             steps {
                 sh 'export CI=false'
                 sh 'export GENERATE_SOURCEMAP=false'
+                sh '''
+                        echo "🔧 Cleaning node_modules and installing dependencies..."
+                        rm -rf node_modules package-lock.json
+                        npm cache clean --force
+
+                        echo "⬇️ Installing required dependencies manually..."
+                        npm install ajv@8.12.0 --save
+                        npm install --legacy-peer-deps
+                        '''
+
                 sh 'npm run build'
                 sh 'ls -la build/'
             }
