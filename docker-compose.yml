@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  registration-app:
+    build: .
+    image: registration-app:latest
+    container_name: registration-app-container
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
